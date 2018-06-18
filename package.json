@@ -1,0 +1,27 @@
+{
+  "name": "bosh.js",
+  "version": "1.0.0",
+  "description": "BOSH protocol client for js",
+  "main": "bosh.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "events": "^3.0.0",
+    "http": "0.0.0",
+    "https": "^1.0.0",
+    "ltx": "^2.7.1",
+    "net": "^1.0.2",
+    "url": "^0.11.0",
+    "util": "^0.11.0"
+  },
+  "devDependencies": {
+    "@types/events": "^1.2.0",
+    "@types/ltx": "^2.6.3",
+    "@types/node": "^10.3.3",
+    "tslint": "^5.10.0",
+    "typescript": "^2.9.2"
+  }
+}
