@@ -1,5 +1,6 @@
 {
     "tslint.enable": true,
     "favorites.sortDirection": "ASC",
-    "favorites.groupsFirst": true
+    "favorites.groupsFirst": true,
+    "typescript.tsdk": "node_modules/typescript/lib"
 }

@@ -31,11 +31,11 @@ export const jidParse = (jid: string): BoshJsJidParsed => {
 };
 
 export const decode64 = (encoded: string): string => {
-    return (new Buffer(encoded, "base64")).toString("utf8");
+    return (Buffer.from(encoded, "base64")).toString("utf8");
 };
 
 export const encode64 = (decoded: string): string => {
-    return (new Buffer(decoded, "utf8")).toString("base64");
+    return (Buffer.from(decoded, "utf8")).toString("base64");
 };
 
 export const randomstring = (): string => {

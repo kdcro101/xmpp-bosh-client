@@ -1,9 +1,15 @@
+interface TestCredentials {
+    username: string;
+    password: string;
+    url: string;
+}
+
 import "jasmine";
 import { BoshJSClient, setLogLevel } from "../index";
-
-const username = "session.11e872ed3452fe30953218bc83d3a18ed5fa92c31937476aa67d117aa8d083cd@systest.club";
-const password = "bfwlfPRhJw2Vp0kOnglao0";
-const bosh = "https://www.systest.club:5280/http-bind/";
+// tslint:disable-next-line:no-var-requires
+// const credentials: TestCredentials = require("../test.params.json");
+// const credentials: TestCredentials = require("../test.params.json");
+import credentials from "../test.params.json";
 
 describe("connect", () => {
 
@@ -13,7 +19,7 @@ describe("connect", () => {
 
     beforeEach(() => {
         return new Promise((resolve, reject) => {
-            connection = new BoshJSClient(username, password, bosh);
+            connection = new BoshJSClient(credentials.username, credentials.password, credentials.url);
             connection.on("error", (e) => {
                 console.log("Error connecting");
                 console.log(e);
@@ -21,7 +27,7 @@ describe("connect", () => {
                 resolve();
             });
             connection.on("online", () => {
-                console.log("Connected SUCCESSFULY ");
+                console.log("Connected successfully ");
                 doneFn(true);
                 resolve();
             });

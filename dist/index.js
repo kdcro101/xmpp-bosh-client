@@ -9,10 +9,17 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var events = require("events");
-var ltx = require("ltx");
-var url = require("url");
+var events = __importStar(require("events"));
+var ltx = __importStar(require("ltx"));
+var url = __importStar(require("url"));
 var local_utils_1 = require("./src/local-utils");
 var NS_CLIENT = "jabber:client";
 var NS_XMPP_SASL = "urn:ietf:params:xml:ns:xmpp-sasl";
@@ -387,3 +394,4 @@ exports.$pres = function (attrib) {
 };
 var local_utils_2 = require("./src/local-utils");
 exports.setLogLevel = local_utils_2.setLogLevel;
+//# sourceMappingURL=index.js.map

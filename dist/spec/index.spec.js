@@ -1,17 +1,18 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 require("jasmine");
 var index_1 = require("../index");
-var username = "session.11e872ed3452fe30953218bc83d3a18ed5fa92c31937476aa67d117aa8d083cd@systest.club";
-var password = "bfwlfPRhJw2Vp0kOnglao0";
-var bosh = "https://www.systest.club:5280/http-bind/";
+var test_params_json_1 = __importDefault(require("../test.params.json"));
 describe("connect", function () {
     var doneFn = jasmine.createSpy("success");
     var connection = null;
     index_1.setLogLevel("DEBUG");
     beforeEach(function () {
         return new Promise(function (resolve, reject) {
-            connection = new index_1.BoshJSClient(username, password, bosh);
+            connection = new index_1.BoshJSClient(test_params_json_1.default.username, test_params_json_1.default.password, test_params_json_1.default.url);
             connection.on("error", function (e) {
                 console.log("Error connecting");
                 console.log(e);
@@ -19,7 +20,7 @@ describe("connect", function () {
                 resolve();
             });
             connection.on("online", function () {
-                console.log("Connected SUCCESSFULY ");
+                console.log("Connected successfully ");
                 doneFn(true);
                 resolve();
             });
@@ -47,3 +48,4 @@ describe("connect", function () {
         connection.listeners("error").forEach(function (l) { return connection.off("error", l); });
     });
 });
+//# sourceMappingURL=index.spec.js.map

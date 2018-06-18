@@ -17,6 +17,7 @@ export declare class BoshJSClient extends events.EventEmitter {
     private pending;
     private sessionSupport;
     constructor(jid: string, password: string, bosh: string, route?: string);
+    emit(event: string | symbol, ...args: any[]): boolean;
     sendHttp(body: string): void;
     private handle;
     private pError;
@@ -33,4 +34,9 @@ export declare class BoshJSClient extends events.EventEmitter {
     private sendPending;
     disconnect(): void;
 }
-//# sourceMappingURL=index.d.ts.map
+export declare const Element: typeof ltx.Element;
+export declare const $build: (xname: string, attrib: any) => ltx.Element;
+export declare const $msg: (attrib: any) => ltx.Element;
+export declare const $iq: (attrib: any) => ltx.Element;
+export declare const $pres: (attrib: any) => ltx.Element;
+export { setLogLevel } from "./src/local-utils";

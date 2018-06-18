@@ -6,8 +6,11 @@
         "module": "commonjs",
         /* Specify module code generation: 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */
         "lib": [
-            "es2017" 
+            "es2017"
         ],
+        "resolveJsonModule": true,
+        "moduleResolution": "node",
+        "esModuleInterop": true,
         /* Specify library files to be included in the compilation:  */
         // "allowJs": true,                       /* Allow javascript files to be compiled. */
         // "checkJs": true,                       /* Report errors in .js files. */
@@ -69,8 +72,12 @@
     },
     "include": [
         "index.ts",
+        "test.params.json",
         "runner.ts",
         "src/**/*",
         "spec/**/*"
+    ],
+    "exclude": [
+        "examples/**/*",
     ]
 }
