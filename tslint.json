@@ -76,7 +76,8 @@
         "max-line-length": [true, 140],
         "forin": false,
         "prefer-for-of": false,
-        "member-ordering": false,
+        "member-ordering": false
+
     },
     "rulesDirectory": []
 }

@@ -1,0 +1,5 @@
+{
+    "tslint.enable": true,
+    "favorites.sortDirection": "ASC",
+    "favorites.groupsFirst": true
+}

@@ -66,13 +66,14 @@ export const xmlHttpRequest = (options: BoshJsXmlHttpRequestOptions, cb: BoshJsX
     };
 
     let hr: http.ClientRequest = null;
+
     if (options.protocol === "https:") {
         hr = https.request(options, responseCallback);
     } else {
         hr = http.request(options, responseCallback);
     }
-
     hr.setHeader("Connection", "Keep-Alive");
+
     hr.on("error", (ee) => {
         cb(true, ee.toString());
     });
@@ -86,8 +87,11 @@ export const xmlHttpRequest = (options: BoshJsXmlHttpRequestOptions, cb: BoshJsX
 };
 
 export const setLogLevel = (ss: string) => {
+    console.log(`New log level: ${ss}`);
+
     ss = ss.toUpperCase();
     if (!BoshJsLogLevel[ss]) {
+        console.log(`nonexisting log level: ${ss}`);
         ss = "FATAL";
     }
     LOG_LEVEL = ss;

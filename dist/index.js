@@ -13,7 +13,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var events = require("events");
 var ltx = require("ltx");
 var url = require("url");
-var local_utils_1 = require("./local-utils");
+var local_utils_1 = require("./src/local-utils");
 var NS_CLIENT = "jabber:client";
 var NS_XMPP_SASL = "urn:ietf:params:xml:ns:xmpp-sasl";
 var NS_XMPP_BIND = "urn:ietf:params:xml:ns:xmpp-bind";
@@ -43,6 +43,7 @@ var BoshJSClient = (function (_super) {
         _this.state = STATE_FIRST;
         _this.pending = [];
         _this.sessionSupport = false;
+        console.log("Constructing BoshJSClient");
         _this.sessionAttributes = {
             rid: Math.round(Math.random() * 10000),
             jid: local_utils_1.jidParse(_this.jid),
@@ -55,9 +56,36 @@ var BoshJSClient = (function (_super) {
             path: u.pathname,
             method: "POST",
             agent: false,
+            protocol: u.protocol,
         };
+        var attr = {
+            "content": "text/xml; charset=utf-8",
+            "to": _this.sessionAttributes.jid.domain,
+            "rid": _this.sessionAttributes.rid++,
+            "hold": 1,
+            "wait": 60,
+            "ver": "1.6",
+            "xml:lang": "en",
+            "xmpp:version": "1.0",
+            "xmlns": NS_DEF,
+            "xmlns:xmpp": "urn:xmpp:xbosh",
+            "route": null,
+        };
+        if (route) {
+            attr.route = route;
+        }
+        var body = new ltx.Element("body", attr);
+        _this.sendHttp(body.toString());
         return _this;
     }
+    BoshJSClient.prototype.emit = function (event) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        console.log("emitting " + event.toString());
+        return _super.prototype.emit.apply(this, [event].concat(args));
+    };
     BoshJSClient.prototype.sendHttp = function (body) {
         var that = this;
         this.chold++;
@@ -357,4 +385,5 @@ exports.$iq = function (attrib) {
 exports.$pres = function (attrib) {
     return new ltx.Element("presence", attrib);
 };
-exports.setLogLevel = local_utils_1.setLogLevel;
+var local_utils_2 = require("./src/local-utils");
+exports.setLogLevel = local_utils_2.setLogLevel;

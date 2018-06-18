@@ -1,11 +1,8 @@
-import * as  events from "events";
-import * as  http from "http";
-import * as  ltx from "ltx";
-import * as  url from "url";
-import * as  util from "util";
-import { encode64, jidParse, logIt, setLogLevel, xmlHttpRequest } from "./local-utils";
-import { BoshJsLogLevel, BoshJsSessionAttributes, BoshJsXmlHttpRequestOptions } from "./types";
-// import { Element } from "ltx";
+import * as events from "events";
+import * as ltx from "ltx";
+import * as url from "url";
+import { encode64, jidParse, logIt, setLogLevel, xmlHttpRequest } from "./src/local-utils";
+import { BoshJsSessionAttributes, BoshJsXmlHttpRequestOptions } from "./src/types";
 
 const NS_CLIENT = "jabber:client";
 const NS_XMPP_SASL = "urn:ietf:params:xml:ns:xmpp-sasl";
@@ -62,9 +59,10 @@ export class BoshJSClient extends events.EventEmitter {
         route		: [String] (optional) route attribute [if used] for connecting to xmpp server
      */
     constructor(private jid: string, private password: string, private bosh: string, private route?: string) {
-        // events.EventEmitter.call(this);
 
         super();
+
+        console.log("Constructing BoshJSClient");
 
         this.sessionAttributes = {
             rid: Math.round(Math.random() * 10000),
@@ -84,11 +82,37 @@ export class BoshJSClient extends events.EventEmitter {
             path: u.pathname,
             method: "POST",
             agent: false,
+            protocol: u.protocol,
         };
 
         // an array of pending xml stanzas to be sent
         // this.pending = [];
 
+        // consructor definition
+        const attr = {
+            "content": "text/xml; charset=utf-8",
+            "to": this.sessionAttributes.jid.domain,
+            "rid": this.sessionAttributes.rid++,
+            "hold": 1,
+            "wait": 60,
+            "ver": "1.6",
+            "xml:lang": "en",
+            "xmpp:version": "1.0",
+            "xmlns": NS_DEF,
+            "xmlns:xmpp": "urn:xmpp:xbosh",
+            "route": null,
+        };
+        if (route) {
+            attr.route = route;
+        }
+        const body = new ltx.Element("body", attr);
+
+        this.sendHttp(body.toString());
+
+    }
+    public emit(event: string | symbol, ...args: any[]): boolean {
+        console.log(`emitting ${event.toString()}`);
+        return super.emit(event, ...args);
     }
     public sendHttp(body: string) {
         const that = this;
@@ -423,30 +447,29 @@ export class BoshJSClient extends events.EventEmitter {
 
 // util.inherits(nxbClient, events.EventEmitter);
 
-
 // stanza builders
 
 // ltx Element object to create stanzas
-exports.Element = ltx.Element;
+export const Element = ltx.Element;
 
 // generic packet building helper function
-exports.$build = function (xname: string, attrib: any) {
+export const $build = (xname: string, attrib: any) => {
     return new ltx.Element(xname, attrib);
 };
 
 // packet builder helper function for message stanza
-exports.$msg = function (attrib: any) {
+export const $msg = (attrib: any) => {
     return new ltx.Element("message", attrib);
 };
 
 // packet builder helper function for iq stanza
-exports.$iq = function (attrib: any) {
+export const $iq = (attrib: any) => {
     return new ltx.Element("iq", attrib);
 };
 
 // packet builder helper function for iq stanza
-exports.$pres = function (attrib: any) {
+export const $pres = (attrib: any) => {
     return new ltx.Element("presence", attrib);
 };
 
-exports.setLogLevel = setLogLevel;
+export { setLogLevel } from "./src/local-utils";

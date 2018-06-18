@@ -68,8 +68,10 @@ exports.xmlHttpRequest = function (options, cb, body) {
     hr.end();
 };
 exports.setLogLevel = function (ss) {
+    console.log("New log level: " + ss);
     ss = ss.toUpperCase();
     if (!types_1.BoshJsLogLevel[ss]) {
+        console.log("nonexisting log level: " + ss);
         ss = "FATAL";
     }
     LOG_LEVEL = ss;

@@ -1,27 +1,48 @@
 {
-  "name": "bosh.js",
-  "version": "1.0.0",
-  "description": "BOSH protocol client for js",
-  "main": "bosh.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "events": "^3.0.0",
-    "http": "0.0.0",
-    "https": "^1.0.0",
-    "ltx": "^2.7.1",
-    "net": "^1.0.2",
-    "url": "^0.11.0",
-    "util": "^0.11.0"
-  },
-  "devDependencies": {
-    "@types/events": "^1.2.0",
-    "@types/ltx": "^2.6.3",
-    "@types/node": "^10.3.3",
-    "tslint": "^5.10.0",
-    "typescript": "^2.9.2"
-  }
+    "name": "bosh.js",
+    "version": "0.0.1",
+    "repository": {
+        "type": "https",
+        "url": "https://github.com/kdcro101/xmpp-bosh-client.git"
+    },
+    "description": "XMPP BOSH protocol client for javascript",
+    "scripts": {
+        "test": "gulp test",
+        "test:debug": "node --inspect-brk node_modules/jasmine/bin/jasmine.js JASMINE_CONFIG_PATH=spec/support/jasmine.json"
+
+    },
+    "main": "dist/index.js",
+    "typings": "definitions/index",
+    "typescript": {
+        "definition": "definitions/index"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "events": "^3.0.0",
+        "http": "0.0.0",
+        "https": "^1.0.0",
+        "ltx": "^2.7.1",
+        "net": "^1.0.2",
+        "url": "^0.11.0",
+        "util": "^0.11.0"
+    },
+    "devDependencies": {
+        "@types/events": "^1.2.0",
+        "@types/jasmine": "^2.8.8",
+        "@types/ltx": "^2.6.3",
+        "@types/node": "^10.3.3",
+        "gulp": "^3.9.1",
+        "gulp-clean": "^0.4.0",
+        "gulp-jasmine": "^4.0.0",
+        "gulp-typescript": "^5.0.0-alpha.1",
+        "jasmine": "^3.1.0",
+        "jasmine-ts": "^0.2.1",
+        "merge2": "^1.2.2",
+        "node-bosh": "^0.7.13",
+        "rimraf": "^2.6.2",
+        "run-sequence": "^2.2.1",
+        "tslint": "^5.10.0",
+        "typescript": "^2.9.2"
+    }
 }
