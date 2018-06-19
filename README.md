@@ -15,6 +15,7 @@ XMPP [BOSH](https://en.wikipedia.org/wiki/BOSH_(protocol)) client for Javascript
 
 `npm install xmpp-bosh-client`
 
+## Usage
 
 ### Typescript
 ```
