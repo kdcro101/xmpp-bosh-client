@@ -3,3 +3,5 @@
 .editorconfig
 test.params.json
 .vscode
+**/*.map
+*.map

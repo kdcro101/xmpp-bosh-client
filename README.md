@@ -67,7 +67,9 @@ var URL = "https://www.example.com:5280/http-bind/";
     });
 
 ```
- 
+#Additional reading
+
+Please read [this](https://metajack.im/2008/07/02/xmpp-is-better-with-bosh/) article.
 
 # Credits 
 
