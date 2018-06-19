@@ -60,17 +60,11 @@ export class BoshClient extends BoshClientBase {
 
         super();
 
-        console.log("Constructing BoshJSClient");
-
         this.sessionAttributes = {
             rid: Math.round(Math.random() * 10000),
             jid: this.jidParse(this.jid),
             password: this.password,
         };
-
-        // this.chold = 0;
-        // this.hasNextTick = false;
-        // this.state = STATE_FIRST;
 
         const u = url.parse(bosh);
 
@@ -402,15 +396,15 @@ export class BoshClient extends BoshClientBase {
         this.send(message);
     }
     // puts ltx-element into pending[] to be sent later
-    public send(ltxe: XmlElement) {
-        ltxe = ltxe.tree();
+    public send(stanza: XmlElement) {
+        stanza = stanza.tree();
 
         if (this.state !== STATE_ONLINE) {
             this.emit("error", "can send something only when u are ONLINE!!!");
             return;
         }
-        if (ltxe) {
-            this.pending.push(ltxe);
+        if (stanza) {
+            this.pending.push(stanza);
         }
         if (!this.hasNextTick) {
             this.hasNextTick = true;
