@@ -1,50 +1,55 @@
 {
-    "name": "xmpp-bosh-client",
-    "version": "0.0.2",
-    "repository": {
-        "type": "https",
-        "url": "https://github.com/kdcro101/xmpp-bosh-client.git"
-    },
-    "description": "XMPP BOSH protocol client for javascript",
-    "scripts": {
-        "test": "gulp test"
-    },
-    "main": "dist/index.js",
-    "typings": "definitions/index",
-    "typescript": {
-        "definition": "definitions/index"
-    },
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "browserify": "^16.2.2",
-        "events": "^3.0.0",
-        "http": "0.0.0",
-        "https": "^1.0.0",
-        "ltx": "^2.7.1",
-        "net": "^1.0.2",
-        "url": "^0.11.0",
-        "util": "^0.11.0"
-    },
-    "devDependencies": {
-        "@types/events": "^1.2.0",
-        "@types/jasmine": "^2.8.8",
-        "@types/ltx": "^2.6.3",
-        "@types/node": "^10.3.3",
-        "babel-core": "^6.26.3",
-        "babel-preset-env": "^1.7.0",
-        "babelify": "^8.0.0",
-        "gulp": "^3.9.1",
-        "gulp-clean": "^0.4.0",
-        "gulp-exec": "^3.0.1",
-        "gulp-jasmine": "^4.0.0",
-        "gulp-typescript": "^5.0.0-alpha.1",
-        "jasmine": "^3.1.0",
-        "jasmine-ts": "^0.2.1",
-        "merge2": "^1.2.2",
-        "rimraf": "^2.6.2",
-        "run-sequence": "^2.2.1",
-        "tslint": "^5.10.0",
-        "typescript": "^2.9.2"
-    }
+	"name": "xmpp-bosh-client",
+	"version": "0.0.6",
+	"repository": {
+		"type": "https",
+		"url": "https://github.com/kdcro101/xmpp-bosh-client.git"
+	},
+	"description": "XMPP BOSH protocol client for javascript",
+	"scripts": {
+		"test": "gulp test"
+	},
+	"main": "dist/index.js",
+	"typings": "definitions/index",
+	"typescript": {
+		"definition": "definitions/index"
+	},
+	"author": "",
+	"license": "ISC",
+    "files": [
+        "definitions/**/*",
+        "src/**/*",
+        "dist/**/*"
+    ],
+	"dependencies": {
+		"@types/ltx": "^2.6.3",
+		"browserify": "^16.2.2",
+		"events": "^3.0.0",
+		"http": "0.0.0",
+		"https": "^1.0.0",
+		"ltx": "^2.7.1",
+		"net": "^1.0.2",
+		"url": "^0.11.0",
+		"util": "^0.11.0"
+	},
+	"devDependencies": {
+		"@types/events": "^1.2.0",
+		"@types/jasmine": "^2.8.8",
+		"@types/node": "^10.3.3",
+		"babel-core": "^6.26.3",
+		"babel-preset-env": "^1.7.0",
+		"babelify": "^8.0.0",
+		"gulp": "^3.9.1",
+		"gulp-clean": "^0.4.0",
+		"gulp-exec": "^3.0.1",
+		"gulp-jasmine": "^4.0.0",
+		"gulp-typescript": "^5.0.0-alpha.1",
+		"jasmine": "^3.1.0",
+		"jasmine-ts": "^0.2.1",
+		"merge2": "^1.2.2",
+		"rimraf": "^2.6.2",
+		"run-sequence": "^2.2.1",
+		"tslint": "^5.10.0",
+		"typescript": "^2.9.2"
+	}
 }

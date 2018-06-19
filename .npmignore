@@ -1,9 +1,5 @@
-*
-!dist/
-!dist/*
-!dist/**/*
-!definitions/
-!definitions/**/*
-!*.ts
-!package.json
-!*.md
+.jsbeautifyrc
+.gitignore
+.editorconfig
+test.params.json
+.vscode
