@@ -1,3 +1,5 @@
+import * as ltx from "ltx";
+
 export interface BoshJsJidParsed {
     username: string;
     domain: string;
@@ -24,6 +26,9 @@ export interface BoshJsXmlHttpRequestOptions {
     agent: boolean;
 }
 export type BoshJsXmlHttpRequestCallback = (error: boolean, response: string) => void;
+export declare class XmlElement extends ltx.Element {
+    public cnode?: (element: any) => void;
+}
 
 // key: "FATAL" | "ERROR" | "INFO" | "DEBUG"
 export const BoshJsLogLevel: { [key: string]: number } = {
@@ -32,3 +37,11 @@ export const BoshJsLogLevel: { [key: string]: number } = {
     INFO: 2,
     DEBUG: 3,
 };
+
+export interface BoshClientEventMap {
+    "online": any;
+    "offline": string;
+    "error": string;
+    "stanza": XmlElement;
+    "ping": XmlElement;
+}

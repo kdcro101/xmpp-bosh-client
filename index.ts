@@ -1,8 +1,7 @@
-import * as events from "events";
 import * as ltx from "ltx";
 import * as url from "url";
-import { encode64, jidParse, logIt, setLogLevel, xmlHttpRequest } from "./src/local-utils";
-import { BoshJsSessionAttributes, BoshJsXmlHttpRequestOptions } from "./src/types";
+import { BoshClientBase } from "./src/base";
+import { BoshJsSessionAttributes, BoshJsXmlHttpRequestOptions, XmlElement } from "./src/types";
 
 const NS_CLIENT = "jabber:client";
 const NS_XMPP_SASL = "urn:ietf:params:xml:ns:xmpp-sasl";
@@ -21,13 +20,12 @@ const STATE_ONLINE = 6;
 const STATE_TERM = 7;
 const STATE_OVER = 8;
 
+// export type BoshEvent = "online" | "offline" | "error" | "stanza";
+
 // tslint:disable-next-line:class-name
-export interface xmlElement extends ltx.Element {
-    cnode?: (element: any) => void;
-}
 
 /*
-	node-xmpp-bosh-client
+	xmpp-bosh-client
 	[A]: Client()
 		1. Event-emitter for the following events
 			a: "online"
@@ -44,7 +42,7 @@ export interface xmlElement extends ltx.Element {
 	[F]: $pres(attrs)	returns an instance of presence xml object
 	[G]: setLogLevel(logLevel) sets the loglevel[use only when extremely necessary]
 */
-export class BoshJSClient extends events.EventEmitter {
+export class BoshClient extends BoshClientBase {
     private sessionAttributes: BoshJsSessionAttributes = null;
     private chold: number = 0;
     private hasNextTick: boolean = false; // bool to check whether sendPending is scheduled on nextTick to send pending stenzas
@@ -66,7 +64,7 @@ export class BoshJSClient extends events.EventEmitter {
 
         this.sessionAttributes = {
             rid: Math.round(Math.random() * 10000),
-            jid: jidParse(this.jid),
+            jid: this.jidParse(this.jid),
             password: this.password,
         };
 
@@ -88,7 +86,7 @@ export class BoshJSClient extends events.EventEmitter {
         // an array of pending xml stanzas to be sent
         // this.pending = [];
 
-        // consructor definition
+        // constructor definition
         const attr = {
             "content": "text/xml; charset=utf-8",
             "to": this.sessionAttributes.jid.domain,
@@ -110,22 +108,17 @@ export class BoshJSClient extends events.EventEmitter {
         this.sendHttp(body.toString());
 
     }
-    public emit(event: string | symbol, ...args: any[]): boolean {
-        console.log(`emitting ${event.toString()}`);
-        return super.emit(event, ...args);
-    }
+
     public sendHttp(body: string) {
         const that = this;
         this.chold++;
-        xmlHttpRequest(this.options, (err, response) => { that.handle(err, response); }, body);
+        this.xmlHttpRequest(this.options, (err, response) => { that.handle(err, response); }, body);
     }
     private handle(err: any, response: string) {
         this.chold--;
-
         // some error in sending or receiving http request
         if (err) {
-            logIt("ERROR", this.sessionAttributes.jid + " no response " + response);
-
+            this.log("ERROR", this.sessionAttributes.jid + " no response " + response);
             // emit offline event with condition
             this.emit("error", response);
 
@@ -133,7 +126,7 @@ export class BoshJSClient extends events.EventEmitter {
         }
 
         // ltx.parse() throws exceptions if unable to parse
-        let body = null;
+        let body: XmlElement = null;
         try {
             body = ltx.parse(response);
         } catch (err) {
@@ -144,7 +137,7 @@ export class BoshJSClient extends events.EventEmitter {
         // check for stream error
         const serror = body.getChild("error", NS_STREAM);
         if (serror) {
-            logIt("ERROR", "stream Error :  " + serror);
+            this.log("ERROR", "stream Error :  " + serror);
             /*
                 No need to terminate as stream already closed by xmppserver and hence bosh-server
                 but to inform other asynch methods not to send messages any more change the state
@@ -157,7 +150,7 @@ export class BoshJSClient extends events.EventEmitter {
         // session termination by bosh server
         if (body.attrs.type && body.attrs.type === "terminate") {
             if (this.state !== STATE_TERM) {
-                logIt("INFO", "Session terminated By the Server " + body);
+                this.log("INFO", "Session terminated By the Server " + body);
                 this.state = STATE_TERM;
                 this.emit("offline", "Session termination by server " + body.toString());
                 return;
@@ -183,12 +176,12 @@ export class BoshJSClient extends events.EventEmitter {
         }
 
         if (this.state === STATE_AUTH) {
-            logIt("DEBUG", "STATE_AUTH with body: " +
+            this.log("DEBUG", "STATE_AUTH with body: " +
                 body.getChild("success", "urn:ietf:params:xml:ns:xmpp-sasl") + " and NS_CLIENT: " + NS_CLIENT);
             const success = body.getChild("success", "urn:ietf:params:xml:ns:xmpp-sasl");
             const failure = body.getChild("failure", NS_CLIENT);
             if (success) {
-                logIt("DEBUG", "Authentication Success:  " + this.sessionAttributes.jid);
+                this.log("DEBUG", "Authentication Success:  " + this.sessionAttributes.jid);
                 this.state = STATE_AUTHED;
                 this.restartStream();		// restart stream
             } else if (failure) {
@@ -268,7 +261,7 @@ export class BoshJSClient extends events.EventEmitter {
         }
 
         if (this.state === STATE_TERM) {
-            logIt("INFO", "client terminating : " + this.sessionAttributes.jid);
+            this.log("INFO", "client terminating : " + this.sessionAttributes.jid);
             this.state = STATE_OVER;
             return;
         }
@@ -278,16 +271,14 @@ export class BoshJSClient extends events.EventEmitter {
             return;
         }
     }
-    private pError(ss: string) {
-        logIt("ERROR", ss);
-        // emit "error" event
-        this.emit("error", ss);
-
+    private pError(error: string) {
+        this.log("ERROR", error);
+        this.emit("error", error);
         this.terminate();
         return;
     }
     private getOnline() {
-        logIt("INFO", "Session Created :  " + this.sessionAttributes.jid);
+        this.log("INFO", "Session Created :  " + this.sessionAttributes.jid);
         // now u r online
         this.state = STATE_ONLINE;
         this.emit("online");
@@ -299,10 +290,16 @@ export class BoshJSClient extends events.EventEmitter {
     }
 
     // what to do on response arrival after online
-    private handleOnline(body: any) {
+    private handleOnline(body: XmlElement) {
         // process body and emit "stanza" event
-        body.children.forEach((ltxe: any) => {
-            this.emit("stanza", ltxe);
+        body.children.forEach((stanza: XmlElement) => {
+
+            if (stanza.name === "iq" && stanza.children.length > 0 && stanza.children[0].name === "ping") {
+                this.sendPong(stanza);
+                return;
+            }
+
+            this.emit("stanza", stanza);
         });
 
         // send any pending stanzas
@@ -310,9 +307,17 @@ export class BoshJSClient extends events.EventEmitter {
 
         return;
     }
+    private sendPong(iqStanza: XmlElement) {
+        const to = iqStanza.attrs.to;
+        const from = iqStanza.attrs.from;
+        const id = iqStanza.attrs.id;
 
+        const s = $iq({ from: to, to: from, type: "result", id });
+        this.send(s);
+        this.emit("ping");
+    }
     // start plain sasl authentication
-    private startSasl(features: any) {
+    private startSasl(features: XmlElement) {
         const mechanisms = features.getChild("mechanisms", NS_XMPP_SASL);
         if (!mechanisms) {
             this.pError("No features-startSasl");
@@ -333,7 +338,7 @@ export class BoshJSClient extends events.EventEmitter {
         const authzid = this.sessionAttributes.jid.username + "@" + this.sessionAttributes.jid.domain;
         const authcid = this.sessionAttributes.jid.username;
         const password = this.sessionAttributes.password;
-        return encode64(authzid + "\u0000" + authcid + "\u0000" + password);
+        return this.encode64(authzid + "\u0000" + authcid + "\u0000" + password);
     }
     // send terminate packet
     private terminate() {
@@ -365,15 +370,15 @@ export class BoshJSClient extends events.EventEmitter {
     private bindResource(resName: string) {
         const resource = new ltx.Element("resource");
         resource.t(resName);
-        const bind: xmlElement = new ltx.Element("bind", { xmlns: NS_XMPP_BIND });
+        const bind: XmlElement = new ltx.Element("bind", { xmlns: NS_XMPP_BIND });
         bind.cnode(resource);
-        const iq: xmlElement = new ltx.Element("iq", { id: "bind_1", type: "set", xmlns: NS_CLIENT });
+        const iq: XmlElement = new ltx.Element("iq", { id: "bind_1", type: "set", xmlns: NS_CLIENT });
         iq.cnode(bind);
         this.sendXml(iq);
     }
     // sends an ltx-xml element by wrapping it into body element[change it to array thing]
-    private sendXml(ltxe?: xmlElement) {
-        const body: xmlElement = new ltx.Element("body", {
+    private sendXml(ltxe?: XmlElement) {
+        const body: XmlElement = new ltx.Element("body", {
             sid: this.sessionAttributes.sid,
             rid: this.sessionAttributes.rid++,
             xmlns: NS_DEF,
@@ -386,7 +391,7 @@ export class BoshJSClient extends events.EventEmitter {
     }
     // sends a single message packet
     public sendMessage(to: string, mbody: string, type?: string) {
-        const message: xmlElement = new ltx.Element("message", {
+        const message: XmlElement = new ltx.Element("message", {
             "to": to,
             "from": this.sessionAttributes.jid.toString(),
             "type": type || "chat",
@@ -397,7 +402,7 @@ export class BoshJSClient extends events.EventEmitter {
         this.send(message);
     }
     // puts ltx-element into pending[] to be sent later
-    public send(ltxe: xmlElement) {
+    public send(ltxe: XmlElement) {
         ltxe = ltxe.tree();
 
         if (this.state !== STATE_ONLINE) {
@@ -420,7 +425,7 @@ export class BoshJSClient extends events.EventEmitter {
     private sendPending() {
         // send only if u have something to send or u need to poll the bosh-server
         if (this.pending.length > 0 || this.chold < 1) {
-            const body: xmlElement = new ltx.Element("body", {
+            const body: XmlElement = new ltx.Element("body", {
                 sid: this.sessionAttributes.sid,
                 rid: this.sessionAttributes.rid++,
                 xmlns: NS_DEF,
@@ -443,33 +448,34 @@ export class BoshJSClient extends events.EventEmitter {
         this.emit("offline", "session termination by user");
         return;
     }
+    public destroy() {
+        this.listeners("online").forEach((l: any) => this.off("online", l));
+        this.listeners("offline").forEach((l: any) => this.off("offline", l));
+        this.listeners("error").forEach((l: any) => this.off("error", l));
+    }
 }
-
-// util.inherits(nxbClient, events.EventEmitter);
 
 // stanza builders
 
 // ltx Element object to create stanzas
-export const Element = ltx.Element;
+export const ltxElement = ltx.Element;
 
 // generic packet building helper function
-export const $build = (xname: string, attrib: any) => {
+export const $build = (xname: string, attrib: any): XmlElement => {
     return new ltx.Element(xname, attrib);
 };
 
 // packet builder helper function for message stanza
-export const $msg = (attrib: any) => {
+export const $msg = (attrib: any): XmlElement => {
     return new ltx.Element("message", attrib);
 };
 
 // packet builder helper function for iq stanza
-export const $iq = (attrib: any) => {
+export const $iq = (attrib: any): XmlElement => {
     return new ltx.Element("iq", attrib);
 };
 
 // packet builder helper function for iq stanza
-export const $pres = (attrib: any) => {
+export const $pres = (attrib: any): XmlElement => {
     return new ltx.Element("presence", attrib);
 };
-
-export { setLogLevel } from "./src/local-utils";

@@ -5,7 +5,7 @@ interface TestCredentials {
 }
 
 import "jasmine";
-import { BoshJSClient, setLogLevel } from "../index";
+import { BoshClient } from "../index";
 // tslint:disable-next-line:no-var-requires
 // const credentials: TestCredentials = require("../test.params.json");
 // const credentials: TestCredentials = require("../test.params.json");
@@ -14,12 +14,12 @@ import credentials from "../test.params.json";
 describe("connect", () => {
 
     const doneFn = jasmine.createSpy("success");
-    let connection: BoshJSClient = null;
-    setLogLevel("DEBUG");
+    let connection: BoshClient = null;
+    BoshClient.setLogLevel("DEBUG");
 
     beforeEach(() => {
         return new Promise((resolve, reject) => {
-            connection = new BoshJSClient(credentials.username, credentials.password, credentials.url);
+            connection = new BoshClient(credentials.username, credentials.password, credentials.url);
             connection.on("error", (e) => {
                 console.log("Error connecting");
                 console.log(e);

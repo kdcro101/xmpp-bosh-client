@@ -2,5 +2,19 @@
     "tslint.enable": true,
     "favorites.sortDirection": "ASC",
     "favorites.groupsFirst": true,
-    "typescript.tsdk": "node_modules/typescript/lib"
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "files.exclude": {
+        "examples/": true,
+        "node_modules/": true
+
+    },
+    "favorites.root": [
+        {
+            "type": "File",
+            "name": "/exec/bosh.js/gulpfile.js",
+            "parent_id": null,
+            "id": "fOXARE3gLmKz7Gup",
+            "workspacePath": "gulpfile.js"
+        }
+    ]
 }
