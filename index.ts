@@ -446,6 +446,7 @@ export class BoshClient extends BoshClientBase {
         this.listeners("online").forEach((l: any) => this.off("online", l));
         this.listeners("offline").forEach((l: any) => this.off("offline", l));
         this.listeners("error").forEach((l: any) => this.off("error", l));
+        this.listeners("ping").forEach((l: any) => this.off("error", l));
     }
 }
 
@@ -470,6 +471,6 @@ export const $iq = (attrib: any): XmlElement => {
 };
 
 // packet builder helper function for iq stanza
-export const $pres = (attrib: any): XmlElement => {
+export const $pres = (attrib?: any): XmlElement => {
     return new ltx.Element("presence", attrib);
 };
