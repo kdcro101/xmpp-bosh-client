@@ -11,7 +11,9 @@ XMPP [BOSH](https://en.wikipedia.org/wiki/BOSH_(protocol)) client for Javascript
 - includes implementation of [XEP-0199: XMPP Ping](https://xmpp.org/extensions/xep-0199.html)
 
 
-## Usage
+## Installation
+
+`npm install xmpp-bosh-client`
 
 
 ### Typescript
