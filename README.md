@@ -67,6 +67,19 @@ var URL = "https://www.example.com:5280/http-bind/";
     });
 
 ```
+
+### Browser (classic)
+
+Include script tag, for example:
+
+`<script src="./node_modules/xmpp-bosh-client/dist/bundle.js"></script>`
+
+Copy `bundle.js` file in location of your convenience and update src attribute.
+ 
+### Browser (angular or other typescript based framwork)
+
+See typescript example above.
+
 # Additional reading
 
 Please read [this](https://metajack.im/2008/07/02/xmpp-is-better-with-bosh/) article.
