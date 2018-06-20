@@ -35,7 +35,7 @@ export class BoshClient extends BoshClientBase {
      * route: [String](optional) route attribute[if used]for connecting to xmpp server
      */
 
-    constructor(private jid: string, private password: string, private bosh: string, private route?: string) {
+    constructor(private jid: string, private password: string, private boshUrl: string, private route?: string) {
 
         super();
 
@@ -45,7 +45,7 @@ export class BoshClient extends BoshClientBase {
             password: this.password,
         };
 
-        const u = url.parse(bosh);
+        const u = url.parse(boshUrl);
 
         this.options = {
             host: u.hostname,
@@ -419,7 +419,7 @@ export class BoshClient extends BoshClientBase {
         this.emit("offline", "session termination by user");
         return;
     }
-    public destroy() {
+    public unregisterListeners() {
         this.listeners("online").forEach((l: any) => this.off("online", l));
         this.listeners("offline").forEach((l: any) => this.off("offline", l));
         this.listeners("error").forEach((l: any) => this.off("error", l));

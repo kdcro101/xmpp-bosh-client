@@ -1,7 +1,9 @@
 # xmpp-bosh-client
 
-XMPP [BOSH](https://en.wikipedia.org/wiki/BOSH_(protocol)) client for Javascript/Typescript
+XMPP [BOSH](https://en.wikipedia.org/wiki/BOSH_(protocol)) client for Javascript/Typescript.
 
+
+Jump to module [interface](#interface)
 
 ## Features
 
@@ -91,9 +93,103 @@ Copy `bundle.js` file in location of your convenience and update src attribute.
 
 See typescript example above.
 
+# <a name="interface"></a> Interface
+
+#### Constructor(jid, password, boshUrl, route)
+Constructs BoshClient instance
+```
+jid      [string] : XMPP username to connect with
+password [string] : password to connect with
+boshUrl  [string] : URL to connect to (example: https://www.example.com:5280/http-bind/)
+route    [string] : optional. routing server for connection. see https://xmpp.org/extensions/xep-0124.html#session-request
+```
+#### on(event_name, listener)
+Register event listener
+```
+event_name [string]   : event name. One of: online,offline,stanza,error,ping
+listener   [function] : event listener function
+
+Data type for event callbacks:
+
+online   -> void
+offline  -> string
+error    -> string
+stanza   -> XmlElement
+ping     -> XmlElement
+
+```
+
+
+#### off(event_name, listener)
+Unregister event listener
+```
+event_name [string]   : event name. One of: online,offline,stanza,error,ping
+listener   [function] : event listener function
+```
+
+#### send(stanza)
+Sends XML stanza to server
+```
+stanza [XmlElement] : Stanza to send
+```
+#### sendMessage(to, mbody, type)
+Sends chat message 
+```
+to    [string] : destination XMPP username (user@domain)
+mbody [string] : Message body
+type  [string] : optional. type attribute, defaults to "chat"
+```
+#### disconnect()
+Sends any pending stanzas and terminates connection.
+
+#### unregisterListeners()
+Unregister all registred listeners. Useful when you don't want to trigger any events after disconnect.
+
+#### ltxElement
+
+Reference to ltx.Element constructor. See [this](https://github.com/xmppjs/ltx).
+Use to construct XML element.
+
+returns `XmlElement`
+
+```
+ const e = new ltxElement("element",{
+    attr1: "some_value",
+    attr2: "some_other_value"
+}) 
+```
+
+#### $build(name, attrs)
+alias for `new ltxElement(name, attrs)`
+
+returns `XmlElement`
+
+```
+ const e = $build("element",{
+    attr1: "some_value",
+    attr2: "some_other_value"
+}) 
+```
+
+#### $msg(attrs)
+Helper to construct message stanza. Alias for `$build("message",attrs)`
+
+returns `XmlElement`
+
+#### $iq(attrs)
+Helper to construct `iq` stanza. Alias for `$build("iq",attrs)`
+
+returns `XmlElement`
+
+#### $pres(attrs)
+Helper to construct `presence` stanza. Alias for `$build("presence",attrs)`
+
+returns `XmlElement`
+
+
 # Additional reading
 
-Please read [this](https://metajack.im/2008/07/02/xmpp-is-better-with-bosh/) article.
+Read [this](https://metajack.im/2008/07/02/xmpp-is-better-with-bosh/) article.
 
 # Credits 
 
