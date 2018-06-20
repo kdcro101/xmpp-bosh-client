@@ -20,42 +20,21 @@ const STATE_ONLINE = 6;
 const STATE_TERM = 7;
 const STATE_OVER = 8;
 
-// export type BoshEvent = "online" | "offline" | "error" | "stanza";
-
-// tslint:disable-next-line:class-name
-
-/*
-	xmpp-bosh-client
-	[A]: Client()
-		1. Event-emitter for the following events
-			a: "online"
-			b: "error"
-			c: "offline"
-			d: "stanza"	[just for now, may be later split it into seperate presence, iq, message stanza events]
-		2. send(ltxe) to send stanzas
-		3. sendMessage(to,body,type="chat") to send messages
-		4. disconnect() to disconnect
-    [B]:	Element() alias to ltx.Element
-    [C]: $build(xname,attrs)	returns an instance of corresponding xml object
-	[D]: $msg(attrs)	returns an instance of message xml object
-	[E]: $iq(attrs)	returns an instance of iq xml object
-	[F]: $pres(attrs)	returns an instance of presence xml object
-	[G]: setLogLevel(logLevel) sets the loglevel[use only when extremely necessary]
-*/
 export class BoshClient extends BoshClientBase {
     private sessionAttributes: BoshJsSessionAttributes = null;
     private chold: number = 0;
     private hasNextTick: boolean = false; // bool to check whether sendPending is scheduled on nextTick to send pending stenzas
     private state: number = STATE_FIRST;
     private options: BoshJsXmlHttpRequestOptions;
-    private pending: any[] = [];
+    private pending: XmlElement[] = [];
     private sessionSupport: boolean = false;
-    /*
-        jid 		: [String] jabber id of user (e.g. 'user@example.com/office')
-        password	: [String] password
-        bosh		: [String] url of the bosh-server (e.g. 'http://localhost:5280/http-bind/')
-        route		: [String] (optional) route attribute [if used] for connecting to xmpp server
+    /**
+     * jid: [String] jabber id of user(e.g. 'user@example.com/office')
+     * password: [String] password
+     * bosh: [String] url of the bosh - server(e.g. 'http://localhost:5280/http-bind/')
+     * route: [String](optional) route attribute[if used]for connecting to xmpp server
      */
+
     constructor(private jid: string, private password: string, private bosh: string, private route?: string) {
 
         super();
@@ -92,11 +71,9 @@ export class BoshClient extends BoshClientBase {
             "xmpp:version": "1.0",
             "xmlns": NS_DEF,
             "xmlns:xmpp": "urn:xmpp:xbosh",
-            "route": null,
+            "route": this.route,
         };
-        if (route) {
-            attr.route = route;
-        }
+
         const body = new ltx.Element("body", attr);
 
         this.sendHttp(body.toString());

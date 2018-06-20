@@ -28,17 +28,24 @@ const URL = "https://www.example.com:5280/http-bind/";
     const connection = new BoshClient(USERNAME, PASSWORD, URL);
 
     connection.on("error", (e) => {
-        console.log("Error connecting");
+        console.log("Error event");
         console.log(e);
     });
     connection.on("online", () => {
-        console.log("Connected successfully ");
+        console.log("Connected successfully");
     });
+    
     connection.on("ping", () => {
         console.log(`Ping received at ${new Date()}`);
     });
+    
+    connection.on("stanza", (stanza) => {
+        console.log(`Stanza received at ${new Date()}`);
+        console.log(stanza);
+    });
+
     connection.on("offline", () => {
-        console.log("Is OFFLINE");
+        console.log("Disconnected/Offline");
     });
 
 ```
@@ -53,17 +60,21 @@ var URL = "https://www.example.com:5280/http-bind/";
 
     var connection = new lib.BoshClient(USERNAME, PASSWORD, URL);
     connection.on("error", function (e) {
-        console.log("Error connecting");
+        console.log("Error event");
         console.log(e);
     });
     connection.on("online", function () {
-        console.log("Connected successfully ");
+        console.log("Connected successfully");
     });
     connection.on("ping", function () {
         console.log("Ping received at " + new Date());
     });
+    connection.on("stanza", function (stanza) {
+        console.log("Stanza received at %s",new Date());
+        console.log(stanza);
+    });
     connection.on("offline", function () {
-        console.log("Is OFFLINE");
+        console.log("Disconnected/Offline");
     });
 
 ```
