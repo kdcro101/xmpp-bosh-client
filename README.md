@@ -95,7 +95,7 @@ See typescript example above.
 
 # <a name="interface"></a> Interface
 
-#### Constructor(jid, password, boshUrl, route)
+## Constructor(jid, password, boshUrl, route)
 Constructs BoshClient instance
 ```
 jid      [string] : XMPP username to connect with
@@ -103,7 +103,7 @@ password [string] : password to connect with
 boshUrl  [string] : URL to connect to (example: https://www.example.com:5280/http-bind/)
 route    [string] : optional. routing server for connection. see https://xmpp.org/extensions/xep-0124.html#session-request
 ```
-#### on(event_name, listener)
+## on(event_name, listener)
 Register event listener
 ```
 event_name [string]   : event name. One of: online,offline,stanza,error,ping
@@ -120,32 +120,32 @@ ping     -> XmlElement
 ```
 
 
-#### off(event_name, listener)
+## off(event_name, listener)
 Unregister event listener
 ```
 event_name [string]   : event name. One of: online,offline,stanza,error,ping
 listener   [function] : event listener function
 ```
 
-#### send(stanza)
+## send(stanza)
 Sends XML stanza to server
 ```
 stanza [XmlElement] : Stanza to send
 ```
-#### sendMessage(to, mbody, type)
+## sendMessage(to, mbody, type)
 Sends chat message 
 ```
 to    [string] : destination XMPP username (user@domain)
 mbody [string] : Message body
 type  [string] : optional. type attribute, defaults to "chat"
 ```
-#### disconnect()
+## disconnect()
 Sends any pending stanzas and terminates connection.
 
-#### unregisterListeners()
+## unregisterListeners()
 Unregister all registred listeners. Useful when you don't want to trigger any events after disconnect.
 
-#### ltxElement
+## ltxElement
 
 Reference to ltx.Element constructor. See [this](https://github.com/xmppjs/ltx).
 Use to construct XML element.
@@ -159,7 +159,7 @@ returns `XmlElement`
 }) 
 ```
 
-#### $build(name, attrs)
+## $build(name, attrs)
 alias for `new ltxElement(name, attrs)`
 
 returns `XmlElement`
@@ -171,17 +171,17 @@ returns `XmlElement`
 }) 
 ```
 
-#### $msg(attrs)
+## $msg(attrs)
 Helper to construct message stanza. Alias for `$build("message",attrs)`
 
 returns `XmlElement`
 
-#### $iq(attrs)
+## $iq(attrs)
 Helper to construct `iq` stanza. Alias for `$build("iq",attrs)`
 
 returns `XmlElement`
 
-#### $pres(attrs)
+## $pres(attrs)
 Helper to construct `presence` stanza. Alias for `$build("presence",attrs)`
 
 returns `XmlElement`
