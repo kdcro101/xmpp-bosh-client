@@ -1,7 +1,10 @@
 import * as ltx from "ltx";
 import * as url from "url";
 import { BoshClientBase } from "./src/base";
-import { BoshJsSessionAttributes, BoshJsXmlHttpRequestOptions, XmlElement } from "./src/types";
+import { $iq } from "./src/helpers";
+import { BoshClientErrorEnum, BoshJsSessionAttributes, BoshJsXmlHttpRequestOptions, XmlElement } from "./src/types";
+
+export * from "./src/helpers";
 
 const NS_CLIENT = "jabber:client";
 const NS_XMPP_SASL = "urn:ietf:params:xml:ns:xmpp-sasl";
@@ -28,12 +31,6 @@ export class BoshClient extends BoshClientBase {
     private options: BoshJsXmlHttpRequestOptions;
     private pending: XmlElement[] = [];
     private sessionSupport: boolean = false;
-    /**
-     * jid: [String] jabber id of user(e.g. 'user@example.com/office')
-     * password: [String] password
-     * bosh: [String] url of the bosh - server(e.g. 'http://localhost:5280/http-bind/')
-     * route: [String](optional) route attribute[if used]for connecting to xmpp server
-     */
 
     constructor(private jid: string, private password: string, private boshUrl: string, private route?: string) {
 
@@ -56,10 +53,8 @@ export class BoshClient extends BoshClientBase {
             protocol: u.protocol,
         };
 
-        // an array of pending xml stanzas to be sent
-        // this.pending = [];
-
-        // constructor definition
+    }
+    public connect() {
         const attr = {
             "content": "text/xml; charset=utf-8",
             "to": this.sessionAttributes.jid.domain,
@@ -77,10 +72,9 @@ export class BoshClient extends BoshClientBase {
         const body = new ltx.Element("body", attr);
 
         this.sendHttp(body.toString());
-
     }
 
-    public sendHttp(body: string) {
+    private sendHttp(body: string) {
         const that = this;
         this.chold++;
         this.xmlHttpRequest(this.options, (err, response) => { that.handle(err, response); }, body);
@@ -101,7 +95,7 @@ export class BoshClient extends BoshClientBase {
         try {
             body = ltx.parse(response);
         } catch (err) {
-            this.pError("xml parsing ERROR: " + response);
+            this.processError(BoshClientErrorEnum.xml_parsing_error);
             return;
         }
 
@@ -156,7 +150,7 @@ export class BoshClient extends BoshClientBase {
                 this.state = STATE_AUTHED;
                 this.restartStream();		// restart stream
             } else if (failure) {
-                this.pError("Authentication Failure: " + this.sessionAttributes.jid + body);
+                this.processError(BoshClientErrorEnum.auth_error);
             } else {
                 this.sendXml();			// sending empty request
             }
@@ -179,7 +173,7 @@ export class BoshClient extends BoshClientBase {
                     this.state = STATE_BIND;
                     this.bindResource(this.sessionAttributes.jid.resource);		// bind resource
                 } else {
-                    this.pError("Resource binding not supported");
+                    this.processError(BoshClientErrorEnum.binding_error);
                 }
             } else {
                 this.sendXml();
@@ -204,7 +198,7 @@ export class BoshClient extends BoshClientBase {
                     }
                 } else {
                     // stanza error to be handled properly
-                    this.pError("iq stanza error resource binding :  " + iq);
+                    this.processError(BoshClientErrorEnum.binding_error);
                 }
             } else {
                 this.sendXml();
@@ -218,7 +212,7 @@ export class BoshClient extends BoshClientBase {
                 if (iq.attrs.id === "sess_1" && iq.attrs.type === "result") {
                     this.getOnline();
                 } else {
-                    this.pError("iq stanza error session establishment : " + iq);
+                    this.processError(BoshClientErrorEnum.session_create_error);
                 }
             } else {
                 this.sendXml();
@@ -242,7 +236,7 @@ export class BoshClient extends BoshClientBase {
             return;
         }
     }
-    private pError(error: string) {
+    private processError(error: BoshClientErrorEnum) {
         this.log("ERROR", error);
         this.emit("error", error);
         this.terminate();
@@ -291,7 +285,8 @@ export class BoshClient extends BoshClientBase {
     private startSasl(features: XmlElement) {
         const mechanisms = features.getChild("mechanisms", NS_XMPP_SASL);
         if (!mechanisms) {
-            this.pError("No features-startSasl");
+            // this.pError("No features-startSasl");
+            this.processError(BoshClientErrorEnum.start_sasl_error);
             return;
         }
         for (let i = 0; i < mechanisms.children.length; i++) {
@@ -302,7 +297,8 @@ export class BoshClient extends BoshClientBase {
                 return;
             }
         }
-        this.pError("Plain SASL authentication unavailable!!!");
+        this.processError(BoshClientErrorEnum.plain_sasl_unavailable_error);
+
     }
     // get plain auth data
     private getPlain() {
@@ -426,28 +422,3 @@ export class BoshClient extends BoshClientBase {
         this.listeners("ping").forEach((l: any) => this.off("error", l));
     }
 }
-
-// stanza builders
-
-// ltx Element object to create stanzas
-export const ltxElement = ltx.Element;
-
-// generic packet building helper function
-export const $build = (xname: string, attrib: any): XmlElement => {
-    return new ltx.Element(xname, attrib);
-};
-
-// packet builder helper function for message stanza
-export const $msg = (attrib: any): XmlElement => {
-    return new ltx.Element("message", attrib);
-};
-
-// packet builder helper function for iq stanza
-export const $iq = (attrib: any): XmlElement => {
-    return new ltx.Element("iq", attrib);
-};
-
-// packet builder helper function for iq stanza
-export const $pres = (attrib?: any): XmlElement => {
-    return new ltx.Element("presence", attrib);
-};

@@ -45,3 +45,11 @@ export interface BoshClientEventMap {
     "stanza": XmlElement;
     "ping": XmlElement;
 }
+export enum BoshClientErrorEnum {
+    auth_error = "auth_error",
+    xml_parsing_error = "xml_parsing_error",
+    binding_error = "binding_error",
+    session_create_error = "session_create_error",
+    start_sasl_error = "start_sasl_error",
+    plain_sasl_unavailable_error = "plain_sasl_unavailable_error",
+}

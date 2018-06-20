@@ -37,6 +37,8 @@ describe("connect", () => {
                 resolve();
             });
 
+            connection.connect();
+
         });
     });
 
@@ -50,13 +52,7 @@ describe("connect", () => {
             return;
         }
         connection.disconnect();
-        console.log("--------------------");
-        console.log("removing listeners");
-        console.log("--------------------");
-
-        connection.listeners("online").forEach((l: any) => connection.off("online", l));
-        connection.listeners("offline").forEach((l: any) => connection.off("offline", l));
-        connection.listeners("error").forEach((l: any) => connection.off("error", l));
+        connection.removeAllListeners();
 
     });
 
