@@ -22,6 +22,7 @@ Jump to module [interface](#interface)
 1. construct BoshClient object
 
 ` const connection = new BoshClient(USERNAME, PASSWORD, URL);`
+
 2. setup event listeners
 
 ```
@@ -30,6 +31,7 @@ Jump to module [interface](#interface)
  connection.on("online", onlineListener);
  connection.on("offline", offlineListener);
 ```
+
 3. start connecting procedure
 
 `connection.connect()`
