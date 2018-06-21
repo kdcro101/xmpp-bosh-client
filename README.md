@@ -147,7 +147,6 @@ ping     -> XmlElement
 
 ```
 
-
 ## off(event_name, listener)
 Unregister event listener
 ```
@@ -175,6 +174,15 @@ Sends any pending stanzas and terminates connection.
 
 ## unregisterListeners()
 Unregister all registred listeners. Useful when you don't want to trigger any events after disconnect.
+
+## errors
+- *auth_error* :  invalid credentials. Error while authenticating
+- *xml_parsing_error* :  error parsing incoming stanza string 
+- *binding_error* : error while binding to resource
+- *session_create_error* : error while creating session
+- *start_sasl_error* : no sasl mechanism available
+- *plain_sasl_unavailable_error*: on plain sasl mechanism available
+
 
 ## ltxElement
 
