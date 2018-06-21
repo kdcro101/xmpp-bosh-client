@@ -21,7 +21,9 @@ Jump to module [interface](#interface)
 
 1. construct BoshClient object
 
-` const connection = new BoshClient(USERNAME, PASSWORD, URL);`
+```
+const connection = new BoshClient(USERNAME, PASSWORD, URL);
+```
 
 2. setup event listeners
 
@@ -34,7 +36,9 @@ Jump to module [interface](#interface)
 
 3. start connecting procedure
 
-`connection.connect()`
+```
+connection.connect()
+```
 
 
 ### Typescript
@@ -107,7 +111,9 @@ var URL = "https://www.example.com:5280/http-bind/";
 
 Include script tag, for example:
 
-`<script src="./node_modules/xmpp-bosh-client/dist/bundle.js"></script>`
+```
+<script src="./node_modules/xmpp-bosh-client/dist/bundle.js"></script>
+```
 
 Copy `bundle.js` file in location of your convenience and update src attribute.
  
