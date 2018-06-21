@@ -19,6 +19,22 @@ Jump to module [interface](#interface)
 
 ## Usage
 
+1. construct BoshClient object
+
+` const connection = new BoshClient(USERNAME, PASSWORD, URL);`
+2. setup event listeners
+
+```
+ connection.on("error", errorListener);
+ connection.on("stanza", stanzaListener);
+ connection.on("online", onlineListener);
+ connection.on("offline", offlineListener);
+```
+3. start connecting procedure
+
+`connection.connect()`
+
+
 ### Typescript
 ```
 import { BoshClient } from "xmpp-bosh-client";
@@ -50,6 +66,8 @@ const URL = "https://www.example.com:5280/http-bind/";
         console.log("Disconnected/Offline");
     });
 
+    connection.connect();
+
 ```
 
 ### Javascript
@@ -78,6 +96,8 @@ var URL = "https://www.example.com:5280/http-bind/";
     connection.on("offline", function () {
         console.log("Disconnected/Offline");
     });
+    
+    connection.connect();
 
 ```
 
@@ -126,6 +146,9 @@ Unregister event listener
 event_name [string]   : event name. One of: online,offline,stanza,error,ping
 listener   [function] : event listener function
 ```
+
+## connect()
+Start connecting procedure
 
 ## send(stanza)
 Sends XML stanza to server

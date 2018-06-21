@@ -12,13 +12,7 @@ export class BoshClientBase extends EventEmitter {
         super();
     }
     protected jidParse(jid: string): BoshJsJidParsed {
-        /* Parses a full JID and returns an object containing 3 fields:
-         *
-         * username: The part before the @ sign
-         * domain  : The domain part of the JID (between @ and /)
-         * resource: The resource of the JID. May be undefined if not set
-         *
-         */
+
         const parts = jid.match(/^([^@]+)@([^\/]+)(\/([\S]+))?$/);
         if (!parts || !(parts instanceof Array) || parts.length < 5) {
             return null;
@@ -41,16 +35,6 @@ export class BoshClientBase extends EventEmitter {
     protected encode64(decoded: string): string {
         return (Buffer.from(decoded, "utf8")).toString("base64");
     }
-    // protected randomstring(): string {
-    //     const l = 5 + Math.floor(Math.random() * 5);
-    //     const chars = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
-    //     let str = "";
-    //     for (let i = 0; i < l; i++) {
-    //         const n = Math.floor(Math.random() * chars.length);
-    //         str += chars.substr(n, 1);
-    //     }
-    //     return str;
-    // }
     protected xmlHttpRequest(options: BoshJsXmlHttpRequestOptions, callback: BoshJsXmlHttpRequestCallback, body: string) {
 
         const responseCallback = (response: http.IncomingMessage) => {
@@ -106,7 +90,6 @@ export class BoshClientBase extends EventEmitter {
             }
         }
     }
-    // public emit<K extends keyof BoshClientEventMap>(event: K | symbol, ...args: any[]): boolean {
     public emit<K extends keyof BoshClientEventMap>(event: K, data?: BoshClientEventMap[K]): boolean {
         return super.emit(event, data);
     }

@@ -1,6 +1,6 @@
 {
 	"name": "xmpp-bosh-client",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"repository": {
 		"type": "https",
 		"url": "https://github.com/kdcro101/xmpp-bosh-client.git"
