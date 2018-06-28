@@ -19,7 +19,11 @@
     "files": [
         "definitions/**/*",
         "src/**/*",
-        "dist/**/*"
+        "dist/**/*",
+        "index.ts",
+        "README.md",
+        "tsconfig.json",
+        "tslint.json"
     ],
 	"dependencies": {
 		"@types/ltx": "^2.6.3",
