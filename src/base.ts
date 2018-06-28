@@ -1,3 +1,4 @@
+
 import { EventEmitter } from "events";
 import * as  http from "http";
 import * as  https from "https";
@@ -98,5 +99,15 @@ export class BoshClientBase extends EventEmitter {
     }
     public listeners<K extends keyof BoshClientEventMap>(event: K) {
         return super.listeners(event);
+    }
+    public unregisterListeners() {
+        this.listeners("online").forEach((l: any) => this.removeListener("online", l));
+        this.listeners("offline").forEach((l: any) => this.removeListener("offline", l));
+        this.listeners("error").forEach((l: any) => this.removeListener("error", l));
+        this.listeners("ping").forEach((l: any) => this.removeListener("ping", l));
+    }
+    public off<K extends keyof BoshClientEventMap>(event: K, listener: any): any {
+        this.removeListener(event, listener);
+        return this;
     }
 }

@@ -415,10 +415,5 @@ export class BoshClient extends BoshClientBase {
         this.emit("offline", "session termination by user");
         return;
     }
-    public unregisterListeners() {
-        this.listeners("online").forEach((l: any) => this.off("online", l));
-        this.listeners("offline").forEach((l: any) => this.off("offline", l));
-        this.listeners("error").forEach((l: any) => this.off("error", l));
-        this.listeners("ping").forEach((l: any) => this.off("error", l));
-    }
+
 }

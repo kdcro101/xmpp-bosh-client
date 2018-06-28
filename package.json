@@ -1,31 +1,19 @@
 {
 	"name": "xmpp-bosh-client",
-	"version": "0.2.2",
+	"version": "0.2.1",
 	"repository": {
 		"type": "https",
 		"url": "https://github.com/kdcro101/xmpp-bosh-client.git"
 	},
 	"description": "XMPP BOSH protocol client for javascript",
 	"scripts": {
-		"test": "gulp test"
+		"test": "gulp test",
+		"prepublish": "npm run build",
+		"build": "gulp default",
+		"pack": "npm pack"
 	},
-	"main": "dist/index.js",
-	"typings": "definitions/index",
-	"typescript": {
-		"definition": "definitions/index"
-	},
-	"bundledDependencies": [
-		"@types/node",
-		"@types/ltx",
-		"browserify",
-		"events",
-		"http",
-		"https",
-		"ltx",
-		"net",
-		"url",
-		"util"
-	],
+	"main": "dist/main.js",
+	"types": "definitions/index.d.ts",
 	"author": "",
 	"license": "ISC",
 	"files": [
@@ -38,9 +26,11 @@
 		"tslint.json"
 	],
 	"dependencies": {
+		"@types/events": "^1.2.0",
+		"@types/jasmine": "^2.8.8",
 		"@types/ltx": "^2.6.3",
-		"browserify": "^16.2.2",
 		"@types/node": "^10.3.3",
+		"browserify": "^16.2.2",
 		"events": "^3.0.0",
 		"http": "0.0.0",
 		"https": "^1.0.0",
@@ -50,10 +40,6 @@
 		"util": "^0.11.0"
 	},
 	"devDependencies": {
-		"@types/ltx": "^2.6.3",
-		"@types/node": "^10.3.3",
-		"@types/events": "^1.2.0",
-		"@types/jasmine": "^2.8.8",
 		"babel-core": "^6.26.3",
 		"babel-preset-env": "^1.7.0",
 		"babelify": "^8.0.0",

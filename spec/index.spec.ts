@@ -9,6 +9,7 @@ import { BoshClient } from "../index";
 // tslint:disable-next-line:no-var-requires
 // const credentials: TestCredentials = require("../test.params.json");
 // const credentials: TestCredentials = require("../test.params.json");
+// tslint:disable-next-line:no-var-requires
 import credentials from "../test.params.json";
 
 describe("connect", () => {

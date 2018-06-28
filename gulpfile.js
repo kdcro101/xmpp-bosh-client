@@ -40,6 +40,13 @@ gulp.task('build-bundle', function(cb) {
 		cb(err);
 	});
 });
+gulp.task('build-main', function(cb) {
+	exec('script/browserfy-main.sh', function(err, stdout, stderr) {
+		console.log(stdout);
+		console.log(stderr);
+		cb(err);
+	});
+});
 
 gulp.task('test:run', function() {
 	return gulp.src('dist/spec/*.spec.js')
@@ -51,5 +58,5 @@ gulp.task('test', [], function(next) {
 });
 
 gulp.task('default', [], function(cb) {
-	runSequence('clean', 'build-type-definitions', 'build-project', 'build-bundle', cb);
+	runSequence('clean', 'build-type-definitions', 'build-project', 'build-bundle','build-main', cb);
 });
