@@ -14,6 +14,18 @@
 	"typescript": {
 		"definition": "definitions/index"
 	},
+	"bundledDependencies": [
+		"@types/node",
+		"@types/ltx",
+		"browserify",
+		"events",
+		"http",
+		"https",
+		"ltx",
+		"net",
+		"url",
+		"util"
+	],
 	"author": "",
 	"license": "ISC",
 	"files": [
@@ -28,6 +40,7 @@
 	"dependencies": {
 		"@types/ltx": "^2.6.3",
 		"browserify": "^16.2.2",
+		"@types/node": "^10.3.3",
 		"events": "^3.0.0",
 		"http": "0.0.0",
 		"https": "^1.0.0",
@@ -37,9 +50,10 @@
 		"util": "^0.11.0"
 	},
 	"devDependencies": {
+		"@types/ltx": "^2.6.3",
+		"@types/node": "^10.3.3",
 		"@types/events": "^1.2.0",
 		"@types/jasmine": "^2.8.8",
-		"@types/node": "^10.3.3",
 		"babel-core": "^6.26.3",
 		"babel-preset-env": "^1.7.0",
 		"babelify": "^8.0.0",
@@ -57,3 +71,4 @@
 		"typescript": "^2.9.2"
 	}
 }
+
