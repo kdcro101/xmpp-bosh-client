@@ -1,6 +1,6 @@
 {
 	"name": "xmpp-bosh-client",
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"repository": {
 		"type": "https",
 		"url": "https://github.com/kdcro101/xmpp-bosh-client.git"
@@ -16,15 +16,15 @@
 	},
 	"author": "",
 	"license": "ISC",
-    "files": [
-        "definitions/**/*",
-        "src/**/*",
-        "dist/**/*",
-        "index.ts",
-        "README.md",
-        "tsconfig.json",
-        "tslint.json"
-    ],
+	"files": [
+		"definitions/**/*",
+		"src/**/*",
+		"dist/**/*",
+		"index.ts",
+		"README.md",
+		"tsconfig.json",
+		"tslint.json"
+	],
 	"dependencies": {
 		"@types/ltx": "^2.6.3",
 		"browserify": "^16.2.2",
