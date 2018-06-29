@@ -19,13 +19,25 @@ Jump to module [interface](#interface)
 
 ## Usage
 
-1. construct BoshClient object
+1) Import BoshClient
+
+When using with node.js
+
+```
+import { BoshClient, $build } from "xmpp-bosh-client/node";
+```
+When using with typescript framework running in browser (angular/react/etc)
+```
+import { BoshClient, $build } from "xmpp-bosh-client/browser";
+```
+
+2) construct BoshClient object
 
 ```
 const connection = new BoshClient(USERNAME, PASSWORD, URL);
 ```
 
-2. setup event listeners
+3) setup event listeners
 
 ```
  connection.on("error", errorListener);
@@ -34,7 +46,7 @@ const connection = new BoshClient(USERNAME, PASSWORD, URL);
  connection.on("offline", offlineListener);
 ```
 
-3. start connecting procedure
+4) start connecting procedure
 
 ```
 connection.connect()
@@ -43,7 +55,10 @@ connection.connect()
 
 ### Typescript
 ```
-import { BoshClient } from "xmpp-bosh-client";
+import { BoshClient } from "xmpp-bosh-client/node"; 
+// when using with Node.js
+import { BoshClient } from "xmpp-bosh-client/browser"; 
+// when using with angular/react (execution in browser)
 
 const USERNAME = "username@example.com";
 const PASSWORD = "somePassword";
@@ -78,7 +93,10 @@ const URL = "https://www.example.com:5280/http-bind/";
 
 ### Javascript
 ```
-var lib = require("xmpp-bosh-client");
+var lib = require("xmpp-bosh-client/node");
+// when using with Node.js
+var lib = require("xmpp-bosh-client/browser");
+// when using with angular/react (execution in browser)
 
 var USERNAME = "username@example.com";
 var PASSWORD = "somePassword";
@@ -112,14 +130,40 @@ var URL = "https://www.example.com:5280/http-bind/";
 Include script tag, for example:
 
 ```
-<script src="./node_modules/xmpp-bosh-client/dist/bundle.js"></script>
+<script src="./node_modules/xmpp-bosh-client/browser-bundle/index.js"></script>
 ```
 
-Copy `bundle.js` file in location of your convenience and update src attribute.
+Copy `index.js` file in location of your convenience and update src attribute.
  
 ### Browser (angular or other typescript based framwork)
 
 See typescript example above.
+
+# Stanza building
+```
+    const root: XmlElement = $build('message', { to: "username@example.com" });
+    const child1 = root.cnode($build("header", {
+        id: "123",
+        jid: "user@example.com"
+    }));
+    child1.cnode($build("some-element", {
+        a: "1",
+        b: 2
+    }));
+```
+Would generate:
+```
+<message to="username@example.com">
+        <header id="123" jid="user@example.com">
+            <some-element a="1" b="2"/>
+        </header>
+        <body>
+            some inner text
+        </body>
+</message>
+
+```
+
 
 # <a name="interface"></a> Interface
 
