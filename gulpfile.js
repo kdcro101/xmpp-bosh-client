@@ -51,7 +51,7 @@ gulp.task('build-main', function(cb) {
 });
 
 gulp.task('test:run', function() {
-	return gulp.src('node-ts/spec/*.spec.js')
+	return gulp.src('node/spec/*.spec.js')
 		.pipe(jasmine())
 });
 

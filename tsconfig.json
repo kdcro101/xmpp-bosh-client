@@ -74,11 +74,7 @@
 		// "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
 	},
 	"include": [
-		"node-ts/index.ts",
-		"node-ts/src/**/*",
-		"node-ts/types/**/*",
-		"test.params.json",
-		"spec/**/*"
+		"node-ts/**/*",
 	],
 	"exclude": [
 		"examples/**/*",

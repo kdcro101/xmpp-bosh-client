@@ -1,6 +1,5 @@
 node_modules
 definitions
-node-ts
-node-js
+node
 browser-bundle
 browser
