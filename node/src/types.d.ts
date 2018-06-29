@@ -1,5 +1,5 @@
 import * as ltx from "ltx";
-
+import "../types/ltx";
 export interface BoshJsJidParsed {
     username: string;
     domain: string;
@@ -25,19 +25,13 @@ export interface BoshJsXmlHttpRequestOptions {
     method: string;
     agent: boolean;
 }
-export type BoshJsXmlHttpRequestCallback = (error: boolean, response: string) => void;
+export declare type BoshJsXmlHttpRequestCallback = (error: boolean, response: string) => void;
 export declare class XmlElement extends ltx.Element {
-    public cnode?: (element: any) => void;
+    cnode?: (element: any) => XmlElement;
 }
-
-// key: "FATAL" | "ERROR" | "INFO" | "DEBUG"
-export const BoshJsLogLevel: { [key: string]: number } = {
-    FATAL: 0,
-    ERROR: 1,
-    INFO: 2,
-    DEBUG: 3,
+export declare const BoshJsLogLevel: {
+    [key: string]: number;
 };
-
 export interface BoshClientEventMap {
     "online": any;
     "offline": string;
@@ -45,11 +39,11 @@ export interface BoshClientEventMap {
     "stanza": XmlElement;
     "ping": XmlElement;
 }
-export enum BoshClientErrorEnum {
+export declare enum BoshClientErrorEnum {
     auth_error = "auth_error",
     xml_parsing_error = "xml_parsing_error",
     binding_error = "binding_error",
     session_create_error = "session_create_error",
     start_sasl_error = "start_sasl_error",
-    plain_sasl_unavailable_error = "plain_sasl_unavailable_error",
+    plain_sasl_unavailable_error = "plain_sasl_unavailable_error"
 }

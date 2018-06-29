@@ -13,7 +13,9 @@ gulp.task('build-type-definitions', function() {
 		.pipe(tsProject());
 
 	return merge([
+		// tsResult.dts.pipe(gulp.dest('./definitions')),
 		tsResult.dts.pipe(gulp.dest('./definitions')),
+		tsResult.dts.pipe(gulp.dest('./browser'))
 		// tsResult.js.pipe(gulp.dest(tsProject.config.compilerOptions.outDir))
 
 	]);
@@ -34,14 +36,14 @@ gulp.task('build-project', function(cb) {
 });
 
 gulp.task('build-bundle', function(cb) {
-	exec('script/browserfy.sh', function(err, stdout, stderr) {
+	exec('script/browserfy-bundle.sh', function(err, stdout, stderr) {
 		console.log(stdout);
 		console.log(stderr);
 		cb(err);
 	});
 });
 gulp.task('build-main', function(cb) {
-	exec('script/browserfy-main.sh', function(err, stdout, stderr) {
+	exec('script/browserfy-browser.sh', function(err, stdout, stderr) {
 		console.log(stdout);
 		console.log(stderr);
 		cb(err);
@@ -49,7 +51,7 @@ gulp.task('build-main', function(cb) {
 });
 
 gulp.task('test:run', function() {
-	return gulp.src('dist/spec/*.spec.js')
+	return gulp.src('node-ts/spec/*.spec.js')
 		.pipe(jasmine())
 });
 
@@ -58,5 +60,5 @@ gulp.task('test', [], function(next) {
 });
 
 gulp.task('default', [], function(cb) {
-	runSequence('clean', 'build-type-definitions', 'build-project', 'build-bundle','build-main', cb);
+	runSequence('clean', 'build-type-definitions', 'build-project', 'build-bundle', 'build-main', cb);
 });

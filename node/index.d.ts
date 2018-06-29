@@ -1,0 +1,34 @@
+import { BoshClientBase } from "./src/base";
+import { XmlElement } from "./src/types";
+export * from "./src/helpers";
+export declare class BoshClient extends BoshClientBase {
+    private jid;
+    private password;
+    private boshUrl;
+    private route?;
+    private sessionAttributes;
+    private chold;
+    private hasNextTick;
+    private state;
+    private options;
+    private pending;
+    private sessionSupport;
+    constructor(jid: string, password: string, boshUrl: string, route?: string);
+    connect(): void;
+    private sendHttp;
+    private handle;
+    private processError;
+    private getOnline;
+    private handleOnline;
+    private sendPong;
+    private startSasl;
+    private getPlain;
+    private terminate;
+    private restartStream;
+    private bindResource;
+    private sendXml;
+    sendMessage(to: string, mbody: string, type?: string): void;
+    send(stanza: XmlElement): void;
+    private sendPending;
+    disconnect(): void;
+}

@@ -1,6 +1,6 @@
 {
 	"name": "xmpp-bosh-client",
-	"version": "0.2.4",
+	"version": "0.3.0",
 	"repository": {
 		"type": "https",
 		"url": "https://github.com/kdcro101/xmpp-bosh-client.git"
@@ -12,15 +12,15 @@
 		"build": "gulp default",
 		"pack": "npm pack"
 	},
-	"main": "dist/main.js",
-	"types": "definitions/index.d.ts",
+ 	"types": "definitions/index.d.ts",
 	"author": "",
 	"license": "ISC",
 	"files": [
 		"definitions/**/*",
-		"src/**/*",
-		"dist/**/*",
-		"index.ts",
+		"node-ts/**/*",
+		"node/**/*",
+		"browser-bundle/**/*",
+		"browser/**/*",
 		"README.md",
 		"tsconfig.json",
 		"tslint.json"
@@ -28,7 +28,6 @@
 	"dependencies": {
 		"@types/events": "^1.2.0",
 		"@types/jasmine": "^2.8.8",
-		"@types/ltx": "^2.6.3",
 		"@types/node": "^10.3.3",
 		"browserify": "^16.2.2",
 		"events": "^3.0.0",
