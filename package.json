@@ -12,7 +12,8 @@
 		"build": "gulp default",
 		"pack": "npm pack"
 	},
- 	"types": "definitions/index.d.ts",
+	"main": "node/index.js",
+	"types": "definitions/index.d.ts",
 	"author": "",
 	"license": "ISC",
 	"files": [
