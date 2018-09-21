@@ -55,35 +55,35 @@ connection.connect()
 
 ### Typescript
 ```
-import { BoshClient } from "xmpp-bosh-client/node"; 
 // when using with Node.js
-import { BoshClient } from "xmpp-bosh-client/browser"; 
+import { BoshClient } from "xmpp-bosh-client/node"; 
 // when using with angular/react (execution in browser)
+import { BoshClient } from "xmpp-bosh-client/browser"; 
 
 const USERNAME = "username@example.com";
 const PASSWORD = "somePassword";
 const URL = "https://www.example.com:5280/http-bind/";
 
-    const connection = new BoshClient(USERNAME, PASSWORD, URL);
+    const client = new BoshClient(USERNAME, PASSWORD, URL);
 
-    connection.on("error", (e) => {
+    client.on("error", (e) => {
         console.log("Error event");
         console.log(e);
     });
-    connection.on("online", () => {
+    client.on("online", () => {
         console.log("Connected successfully");
     });
     
-    connection.on("ping", () => {
+    client.on("ping", () => {
         console.log(`Ping received at ${new Date()}`);
     });
     
-    connection.on("stanza", (stanza) => {
+    client.on("stanza", (stanza) => {
         console.log(`Stanza received at ${new Date()}`);
         console.log(stanza);
     });
 
-    connection.on("offline", () => {
+    client.on("offline", () => {
         console.log("Disconnected/Offline");
     });
 
@@ -102,26 +102,26 @@ var USERNAME = "username@example.com";
 var PASSWORD = "somePassword";
 var URL = "https://www.example.com:5280/http-bind/";
 
-    var connection = new lib.BoshClient(USERNAME, PASSWORD, URL);
-    connection.on("error", function (e) {
+    var client = new lib.BoshClient(USERNAME, PASSWORD, URL);
+    client.on("error", function (e) {
         console.log("Error event");
         console.log(e);
     });
-    connection.on("online", function () {
+    client.on("online", function () {
         console.log("Connected successfully");
     });
-    connection.on("ping", function () {
+    client.on("ping", function () {
         console.log("Ping received at " + new Date());
     });
-    connection.on("stanza", function (stanza) {
+    client.on("stanza", function (stanza) {
         console.log("Stanza received at %s",new Date());
         console.log(stanza);
     });
-    connection.on("offline", function () {
+    client.on("offline", function () {
         console.log("Disconnected/Offline");
     });
     
-    connection.connect();
+    client.connect();
 
 ```
 
@@ -133,7 +133,39 @@ Include script tag, for example:
 <script src="./node_modules/xmpp-bosh-client/browser-bundle/index.js"></script>
 ```
 
+exports will be accessible via `BoshXMPP` wrapper:
+
+```
+    var client =  BoshXMPP.BoshClient(USERNAME, PASSWORD, URL);
+    
+    client.on("error", (e) => {
+        console.log("Error event");
+        console.log(e);
+    });
+    client.on("online", () => {
+        console.log("Connected successfully");
+    });
+    
+    client.on("ping", () => {
+        console.log(`Ping received at ${new Date()}`);
+    });
+    
+    client.on("stanza", (stanza) => {
+        console.log(`Stanza received at ${new Date()}`);
+        console.log(stanza);
+    });
+
+    client.on("offline", () => {
+        console.log("Disconnected/Offline");
+    });
+
+    connection.connect();
+
+```
+
 Copy `index.js` file in location of your convenience and update src attribute.
+
+
  
 ### Browser (angular or other typescript based framwork)
 

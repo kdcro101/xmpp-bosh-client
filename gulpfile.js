@@ -5,8 +5,11 @@ const clean = require('gulp-clean');
 const runSequence = require('run-sequence');
 var exec = require('child_process').exec;
 
+// var merge = require('merge-stream');
+const merge = require('merge2');
+
 gulp.task('build-type-definitions', function() {
-	const merge = require('merge2');
+
 	const tsProject = ts.createProject('tsconfig.json');
 
 	var tsResult = tsProject.src()
@@ -22,9 +25,10 @@ gulp.task('build-type-definitions', function() {
 });
 
 gulp.task('clean', function() {
-	return gulp.src('dist', {
-		read: false
-	}).pipe(clean());
+	const task1 = gulp.src('dist', { read: false }).pipe(clean());
+	const task2 = gulp.src('browser-bundle', { read: false }).pipe(clean());
+
+    return merge(task1,task2);
 });
 
 gulp.task('build-project', function(cb) {
