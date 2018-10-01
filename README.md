@@ -23,7 +23,7 @@ Jump to module [interface](#interface)
 
 When using with node.js
 
-```
+```js
 import { BoshClient, $build } from "xmpp-bosh-client/node";
 ```
 When using with typescript framework running in browser (angular/react/etc)
@@ -33,13 +33,13 @@ import { BoshClient, $build } from "xmpp-bosh-client/browser";
 
 2) construct BoshClient object
 
-```
+```js
 const connection = new BoshClient(USERNAME, PASSWORD, URL);
 ```
 
 3) setup event listeners
 
-```
+```js
  connection.on("error", errorListener);
  connection.on("stanza", stanzaListener);
  connection.on("online", onlineListener);
@@ -48,13 +48,13 @@ const connection = new BoshClient(USERNAME, PASSWORD, URL);
 
 4) start connecting procedure
 
-```
+```js
 connection.connect()
 ```
 
 
 ### Typescript
-```
+```ts
 // when using with Node.js
 import { BoshClient } from "xmpp-bosh-client/node"; 
 // when using with angular/react (execution in browser)
@@ -92,7 +92,7 @@ const URL = "https://www.example.com:5280/http-bind/";
 ```
 
 ### Javascript
-```
+```js
 var lib = require("xmpp-bosh-client/node");
 // when using with Node.js
 var lib = require("xmpp-bosh-client/browser");
@@ -129,13 +129,13 @@ var URL = "https://www.example.com:5280/http-bind/";
 
 Include script tag, for example:
 
-```
+```html
 <script src="./node_modules/xmpp-bosh-client/browser-bundle/index.js"></script>
 ```
 
 exports will be accessible via `BoshXMPP` wrapper:
 
-```
+```js
     var client =  BoshXMPP.BoshClient(USERNAME, PASSWORD, URL);
     
     client.on("error", (e) => {
@@ -172,7 +172,7 @@ Copy `index.js` file in location of your convenience and update src attribute.
 See typescript example above.
 
 # Stanza building
-```
+```js
     const root: XmlElement = $build('message', { to: "username@example.com" });
     const child1 = root.cnode($build("header", {
         id: "123",
@@ -184,7 +184,7 @@ See typescript example above.
     }));
 ```
 Would generate:
-```
+```xml
 <message to="username@example.com">
         <header id="123" jid="user@example.com">
             <some-element a="1" b="2"/>
@@ -267,7 +267,7 @@ Use to construct XML element.
 
 returns `XmlElement`
 
-```
+```js
  const e = new ltxElement("element",{
     attr1: "some_value",
     attr2: "some_other_value"
@@ -279,7 +279,7 @@ alias for `new ltxElement(name, attrs)`
 
 returns `XmlElement`
 
-```
+```js
  const e = $build("element",{
     attr1: "some_value",
     attr2: "some_other_value"
