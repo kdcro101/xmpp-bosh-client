@@ -136,7 +136,7 @@ Include script tag, for example:
 exports will be accessible via `BoshXMPP` wrapper:
 
 ```js
-    var client =  BoshXMPP.BoshClient(USERNAME, PASSWORD, URL);
+    var client =  new BoshXMPP.BoshClient(USERNAME, PASSWORD, URL);
     
     client.on("error", (e) => {
         console.log("Error event");
